@@ -1,0 +1,82 @@
+<h2>Account</h2>
+<table class="table">
+    <tr>
+        <th>Symbol</th>
+        <th>Name</th>
+        <th>Shares</th>
+        <th>Price (USD)</th>
+        <th>Value (USD)</th>
+        <th>Buy</th>
+        <th>Sell</th>
+    </tr>
+    <tr>
+        <td>Cash</td>
+        <td>---</td>
+        <td>---</td>
+        <td>---</td>
+        <td>{{ "{: .2f}".format(session["cash"]/100) }}</td>
+        <td></td>
+        <td></td>
+    </tr>
+    {% for asset in session["assets"] %}
+    <tr>
+        <td>{{ asset["stock"] }}</td>
+        <td>{{ asset["name"] }}</td>
+        <td>{{ asset["shares"] }}</td>
+        <td>{{ "{: .2f}".format(asset["price"]/100) }}</td>
+        <td>{{ "{: .2f}".format(asset["value"]/100) }}</td>
+        <td>
+            <button class="btn btn-xs btn-primary" type="submit" 
+                name="buy" value="buy"
+                data-toggle="collapse" data-target="#buy{{asset['stock']}}">Buy</button>
+        </td>
+        <td>
+            <button class="btn btn-xs btn-danger" type="submit" 
+                name="sell" value="sell"
+                data-toggle="collapse" data-target="#sell{{asset['stock']}}">Sell</button>
+        </td>
+    </tr>
+    <tr class="collapse buyrow" id="buy{{asset['stock']}}">
+        <td></td>
+        <td colspan="6">
+            <form action="{{ url_for('trade') }}" method="post">
+                <div class="input-group col-xs-8">
+                    <span class="input-group-btn">
+                        <button class="btn btn-primary" type="submit" name="type" value="buy">Buy</button>
+                    </span>
+                    <input class="form-control" type="number" min="1"
+                        autofocus name="shares" placeholder="#"/>
+                    <span class="input-group-addon">{{ asset["stock"] }} shares</span>
+                </div>
+                <input class="hidden" type="text" name="symbol" value="{{ asset['stock'] }}"/>
+            </form>
+        </td>
+    </tr>
+    <tr class="collapse sellrow" id="sell{{asset['stock']}}">
+        <td></td>
+        <td colspan="6">
+            <form action="{{ url_for('trade') }}" method="post">
+                <div class="input-group col-xs-8">
+                    <span class="input-group-btn">
+                        <button class="btn btn-danger" type="submit" name="type" value="sell">Sell</button>
+                    </span>
+                    <input class="form-control" type="number" min="1" max="{{ asset['shares'] }}"
+                        autofocus name="shares" placeholder="#"/>
+                    <span class="input-group-addon">{{ asset["stock"] }} shares</span>
+                </div>
+                <input class="hidden" type="text" name="symbol" value="{{ asset['stock'] }}"/>
+                <input class="hidden" type="text" name="maxshares" value="{{ asset['shares'] }}"/>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <th>Total Value</td>
+        <th>{{ "{: .2f}".format(session["total"]/100) }}</th>
+        <td></td>
+        <td></td>
+    </tr>
+</table>

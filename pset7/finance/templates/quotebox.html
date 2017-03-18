@@ -1,0 +1,39 @@
+<h2>Qoute</h2>
+<form action="{{ url_for('quote') }}" method="post">
+    <div class="input-group">
+        <input autocomplete="off" class="form-control" name="symbol" placeholder="Stock Symbol" type="text"/>
+        <span class="input-group-btn">
+            <button class="btn btn-default" type="submit" value="quote">Get Quote</button>
+        </span>
+    </div>
+</form>
+<br>
+{% if session["quote"] is defined %}
+    <table class="table">
+        <tr>
+            <th>Name</th>
+            <td>{{ session["quote"]["name"] }}</td>
+        </tr>
+        <tr>
+            <th>Symbol</th>
+            <td>{{ session["quote"]["symbol"] }}</td>
+        <tr>
+            <th>Price</th>
+            <td>$ {{ session["quote"]["price"] }}</td>
+        </tr>
+            <td colspan="2">
+                <form action="{{ url_for('trade') }}" method="post">
+                    <div class="input-group">
+                        <input class="form-control" type="number" name="shares" 
+                            min="1" placeholder="Number of Shares"
+                            {{ 'autofocus' if request.path=='/buy' }}/>
+                        <span class="input-group-btn">
+                            <button class="btn btn-primary" type="submit" name="type" value="buy">Buy</button>
+                        </span>
+                    </div>
+                    <input class="hidden" type="text" name="symbol" value="{{ session['quote']['symbol'] }}"/>
+                </form>
+            </td>
+        </tr>
+    </table>
+{% endif %}

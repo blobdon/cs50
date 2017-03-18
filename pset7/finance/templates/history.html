@@ -1,0 +1,23 @@
+<h2>History</h2>
+{% if session["trades"] != None %}
+<table class="table table-condensed">
+    <tr>
+        <th>Buy/Sell</th>
+        <th>Stock</th>
+        <th>Shares</th>
+        <th>Price (USD)</th>
+        <th>Timestamp</th>
+    </tr>
+    {% for t in session["trades"]|reverse %}
+    <tr class="{{ 'info' if t['shares'] > 0 else 'warning' }}">
+        <td>{{ 'Buy' if t["shares"] > 0 else 'Sell' }}</td>
+        <td>{{ t["stock"] }}</td>
+        <td>{{ t["shares"]|abs }}</td>
+        <td>{{ "{: .2f}".format(t["price"]/100) }}</td>
+        <td>{{ t["timestamp"] }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<h3>You have not made any trades yet.</h3>
+{% endif %}

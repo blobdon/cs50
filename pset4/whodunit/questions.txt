@@ -1,0 +1,14 @@
+1.  Stdint.h is a C header file including definitions of fixed-width integers
+2.  These types will ensure that the integer widths (bits) are the same across all platforms.
+3.  BYTE is 1 byte, DWORD is 4 bytes, LONG is 4 bytes, WORD is 2 bytes.
+4.  First two bytes of bitmap file must be ASCII "BM", which is hex 0x424d.
+5.  bfSize is the size of the entire bitmap file, including the headers, while biSize is just the size of the image.
+6.  Negative biHeight means the bitmap image is described from the top down, beginning at the upper left.
+7.  biBitCount specifies the bits-per-pixel (color depth).
+8.  Line 24 would return NULL if the given file didn't exist or could not be opened. Line 32, because it is writing, will return
+    NULL if the given filename contains an invalid character, or if the called lacks appropriate permission to write to the disk.
+9.  The third argument is the number of blocks we want to read in. Since we are working with each block, we only want to read in
+    one at a time.
+10.  3.
+11. fseek allows you to set the offset from the file pointer (i.e. select a location in the file stream).
+12. SEEK_CUR is a from_where option in fseek that while move the curser relative to the current curser position.

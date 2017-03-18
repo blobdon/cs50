@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Your Account
+{% endblock %}
+
+{% block main %}
+    <div class="row">
+        <div class="col-md-8" id="account">
+            {% include "account.html" %}
+        </div>
+        <div class="col-md-4 {{ 'bg-info' if request.path=='/quote' }}" id="quote">
+            {% include "quotebox.html" %}
+        </div>
+    </div>
+    <div class="row" id="history">
+        <div class="col-md-8">
+            {% include "history.html" %}
+        </div>
+    </div>
+{% endblock %}
